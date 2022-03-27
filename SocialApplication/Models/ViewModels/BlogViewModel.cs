@@ -10,7 +10,7 @@ namespace SocialApplication.Models.ViewModels
         [DataType(DataType.MultilineText)]
         public string Content { set; get; }
         [DataType(DataType.Upload)]
-        //public HttpPostedFile Image { set; get; }
+        public HttpPostedFileBase Image { set; get; }
         public string oldimgurl { set; get; }
     }
     public class BlogViewModel

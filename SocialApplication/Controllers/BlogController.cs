@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
@@ -8,6 +9,7 @@ using SocialApplication.Models;
 using SocialApplication.Models.Entity;
 using SocialApplication.Models.ViewModels;
 using Microsoft.AspNet.Identity;
+using SocialApplication.Services;
 
 namespace SocialApplication.Controllers
 {
@@ -86,12 +88,13 @@ namespace SocialApplication.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include ="Title,Content")]BlogCreateViewModel model)
+        public ActionResult Create([Bind(Include ="Title,Content,Image")]BlogCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    string filename=FileSystem.Savefile(model.Image, "blogs",$"{model.Title}{Guid.NewGuid().ToString()}",Path.GetExtension(model.Image.FileName));
                     string UserId=User.Identity.GetUserId();
                     Blog blog = new Blog()
                     {
