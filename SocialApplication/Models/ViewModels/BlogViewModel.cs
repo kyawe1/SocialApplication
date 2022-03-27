@@ -26,6 +26,12 @@ namespace SocialApplication.Models.ViewModels
         public long reactionCount { set; get; } = 0;
         public string ImageUrl { set; get; }
         public bool liked { set; get; } = false;
+
+        public string GetUrl()
+        {
+            return $"~/uploads/blogs/{ ImageUrl }";
+        }
+
     }
 }
 

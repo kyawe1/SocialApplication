@@ -17,7 +17,11 @@
 
 
     </div>
-    <img src="upload/@Model.ImageUrl" width="700" class="img-fluid m-auto d-block mb-2">
+    @if (Model.ImageUrl != null)
+    {
+        <img src="@Url.Content(Model.GetUrl())" width="700" class="img-fluid m-auto d-block mb-2">
+    }
+
 
     <div class="p-2 mx-2">
         <div class='p-1 m-1 h5'>

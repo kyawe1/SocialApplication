@@ -17,7 +17,7 @@ namespace SocialApplication.Models.ViewModels
 
         public string GetUrl()
         {
-            return $"/upload/profile/{Image}";
+            return $"/uploads/profile/{Image}";
         }
     }
     public class ProfileCreateViewModel

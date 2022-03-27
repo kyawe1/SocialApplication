@@ -31,6 +31,7 @@ namespace SocialApplication.Controllers
                     Title=p.Title,
                     reactionCount=context.reactions.Where(q=> q.BlogId==p.Id).Count(),
                     CreatedAt=p.CreateAt,
+                    ImageUrl=p.Image,
                     Id=p.Id
                 }).ToList();
                 foreach( var i in blogs)
@@ -61,7 +62,8 @@ namespace SocialApplication.Controllers
                     Title = p.Title,
                     reactionCount = context.reactions.Where(q=> q.BlogId==p.Id).Count(),
                     CreatedAt = p.CreateAt,
-                    Id = p.Id
+                    Id = p.Id,
+                    ImageUrl=p.Image
                 }).SingleOrDefault(b => b.Id == id);
                 if (blog == null)
                 {
@@ -100,7 +102,8 @@ namespace SocialApplication.Controllers
                     {
                         Title=model.Title,
                         Content=model.Content,
-                        UserId=UserId
+                        UserId=UserId,
+                        Image=filename
                     };
                     using (Context context = new Context())
                     {
@@ -141,6 +144,7 @@ namespace SocialApplication.Controllers
                 {
                     using (Context context = new Context())
                     {
+                        string filename = FileSystem.Savefile(model.Image, "blogs", $"{model.Title}{Guid.NewGuid().ToString()}", Path.GetExtension(model.Image.FileName));
                         Blog blog=context.blogs.SingleOrDefault(p=> p.Id==id);
                         if (blog == null)
                         {

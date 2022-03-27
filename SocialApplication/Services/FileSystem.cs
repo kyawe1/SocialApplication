@@ -23,5 +23,25 @@ namespace SocialApplication.Services
             }
                 return $"{name}.{extension}";
         }
+        public static FileStream GetBlogPicture(string filename)
+        {
+            try
+            {
+                FileStream fs = null;
+                var rootpath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory);
+                using (FileStream fileStream = File.Open(Path.Combine(rootpath, "upload/blogs")+filename, FileMode.Open))
+                {
+                    fs= fileStream;
+                }
+                return fs;
+            }catch(Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+        public static string GetExtension(string filename)
+        {
+            return Path.GetExtension(filename);
+        }
     }
 }

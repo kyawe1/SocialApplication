@@ -10,6 +10,7 @@ namespace SocialApplication.Models.Entity
     {
         public string Title { set; get; }
         public string Content { set; get; }
+        public string Image { set; get; }
         [ForeignKey("User")]
         public string UserId { set; get; }
         public ApplicationUser User { set; get; }
