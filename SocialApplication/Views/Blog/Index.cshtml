@@ -1,0 +1,16 @@
+@model IEnumerable<BlogViewModel>
+
+<div class="m-2 px-3">
+    <div class="m-1 p-1 col-12 col-md-10 m-auto">
+        @Html.ActionLink("Create","Create",new { controller="Blog" },new { @class= "w-100 btn btn-primary p-2" })
+    </div>
+    @foreach (BlogViewModel i in Model)
+    {
+        @Html.Partial("_AbstractBlogCard",i)
+    }
+    <div class="btn-group mx-auto d-block" role="group" aria-label="Basic example">
+    @*@for(int i=1;i<=ViewBag.totalpages;i++){
+        <button type="button" class="btn btn-primary mx-2" role="button">@i</button>
+    }*@
+    </div>
+</div>

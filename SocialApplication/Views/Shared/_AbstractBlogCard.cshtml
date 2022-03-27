@@ -1,0 +1,64 @@
+@model BlogViewModel
+
+
+<div class="row position-relative row mx-2 h-100 g-3 justify-content-center mb-2">
+    <div class="col-md-9 col-12 mx-2 px-2">
+        <div class=" row row-cols-1">
+            <div class="card rounded-2 p-2 shadow-sm">
+                <div class="p-1 m-1 mb-2">
+                    <div class="d-flex">
+                        <div class="fw-bold fs-5">
+                            @Html.ActionLink(Model.Name, "Index", new { controller = "Profile", id = Model.ProfileId }, new { @class = "text-decoration-none text-dark h4 mb-2" })
+                        </div>
+                        <div class="dropdown ms-auto">
+                            <button class=" dropdown-toggle btn btn-light w-100" type="button" id="dropdownmenu" data-bs-toggle="dropdown" aria-expanded="false">
+
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownmenu">
+                                @Html.ActionLink("Save", "Save", new { controller = "Blog", id = Model.Id }, new { @class = "dropdown-item" })
+
+                                @if (User.Identity.Name == @Model.AuthorEmail)
+                                {
+                                    @Html.ActionLink("Update", "Update", new { controller = "Blog", id = Model.Id }, new { @class = "dropdown-item" })
+                                    <a asp-action="Update" asp-controller="Blog" asp-route-Id=@Model.Id class="dropdown-item">Update</a>
+                                    <span class="dropdown-divider"></span>
+                                    using (Html.BeginForm("Delete", "Blog", new { id = Model.Id }, FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input class="dropdown-item" type="submit" role="button" value="Delete">
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href='@Url.Action("Detail","Blog",new { id=Model.Id })' class="text-decoration-none text-dark">
+                    <div class="px-3 py-1">
+                        @if (Model.ImageUrl != null)
+                        {
+                            <img src="upload/@Model.ImageUrl" width="700" class="img-fluid m-auto d-block mb-2">
+                        }
+                    </div>
+                    <div class="card-body mb-1 text-wrap">
+                        <article class='m-1'>
+                            @Model.Title
+                        </article>
+                        <article class='m-1 p-1 text-truncate'>
+                            @Model.Content
+                        </article>
+                    </div>
+                </a>
+                @if (Model.liked == false)
+                {
+                    <div class="px-2 border-top border-1 border-dark">
+                        @Html.ActionLink($"{Model.reactionCount}Like", "Like", new { controller = "Reaction", id = Model.Id }, new { @class = "fs-6 m-1 pt-3 pb-2 text-dark text-decoration-none" })
+                    </div>
+                }
+            </div>
+            <!-- this is card -->
+        </div>
+    </div>
+    <!-- this is row -->
+
+</div>

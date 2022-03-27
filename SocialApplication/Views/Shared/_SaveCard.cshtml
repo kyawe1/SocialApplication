@@ -1,0 +1,23 @@
+@model SaveViewModel
+
+<div class="row border-1 border rounded-1 w-75 m-auto m-0 p-0">
+    <div class="col-12 col-lg-4">
+        <img src="./template.jpg" class="img-fluid p-1 ">
+    </div>
+    <div class="col p-2">
+
+        <div class="p-2 m-1 px-3">
+            <div class="mb-1">
+                <a asp-action="Index" asp-controller="Profile" asp-route-id=@Model.ProfileId class="text-decoration-none text-dark">@Model.Name</a>
+            </div>
+            <div class="mb-1">
+                <span>Created At:</span>
+                <span>@Model.BlogCreatedAt</span>
+            </div>
+            <div>
+                @Html.ActionLink("ReadMore","Detail",new { controller="Blog",id=Model.BlogId }, new { @class="btn btn-primary"})
+                @Html.ActionLink("Unsave","UnSave",new { controller="Save",id=Model.BlogId }, new { @class="btn btn-warning"})
+            </div>
+        </div>
+    </div>
+</div>

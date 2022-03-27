@@ -1,0 +1,32 @@
+@model BlogCreateViewModel
+
+
+<div class='m-2 p-3'>
+    <form method="post" asp-action='Update' asp-controller="Blog" enctype="multipart/form-data">
+        @Html.ValidationSummary()
+        @Html.AntiForgeryToken()
+        <div class='m-1 p-1'>
+            @Html.LabelFor(p => p.Title, new { htmlAttributes = new { @class = "form-label" } })
+            @Html.EditorFor(p => p.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Title" } })
+        </div>
+        <div class='m-1 p-1'>
+            @Html.LabelFor(p => p.Content, new { htmlAttributes = new { @class = "form-label" } })
+            @Html.EditorFor(p => p.Content, new { htmlAttributes = new { @class = "form-control", placeholder = "Content" } })
+        </div>
+        @if (Model.oldimgurl != null)
+        {
+            <div class='w-50 m-auto'>
+                <img src="/upload/@Model.oldimgurl" class="img-fluid" />
+            </div>
+        }
+        @*<div class='m-1 p-1'>
+            <label asp-for="Image" class="form-label">Image</label>
+            <input asp-for='Image' class='form-control' placeholder="Content" />
+        </div>*@
+
+        <div class='m-1 p-1'>
+
+            <input type='submit' class='btn btn-primary' value="Create" />
+        </div>
+    </form>
+</div>

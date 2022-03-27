@@ -1,0 +1,33 @@
+@model BlogViewModel
+
+<div class="m-2 px-3 w-75 m-auto">
+    <div class="d-block float-end position-relative">
+        @if (Model.AuthorEmail == User.Identity.Name)
+        {
+            <a asp-action="Update" asp-controller="Blog" asp-route-Id=@Model.Id class="btn btn-warning">Update</a>
+            using (Html.BeginForm("Delete", "Blog", new { id = Model.Id }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input class="btn btn-danger" type="submit" role="button" value="Delete">
+            }
+        }
+    </div>
+    <div class="p-2 mx-2">
+        @Html.ActionLink(Model.Name, "Index", new { controller = "Profile", id = Model.ProfileId }, new { @class = "text-decoration-none text-dark h4 mb-2" })
+
+
+    </div>
+    <img src="upload/@Model.ImageUrl" width="700" class="img-fluid m-auto d-block mb-2">
+
+    <div class="p-2 mx-2">
+        <div class='p-1 m-1 h5'>
+            @Model.Title
+        </div>
+        <p class="p-2 m-1 ">
+            @Model.Content
+        </p>
+        <div class="pt-2 pb-1 border-top border-1 my-2">
+            @Html.ActionLink($"{Model.reactionCount}Like", "Like", new { controller = "Reaction", id = Model.Id }, new { @class = "fs-6 m-1 pt-3 pb-2 text-dark text-decoration-none" })
+        </div>
+    </div>
+</div>

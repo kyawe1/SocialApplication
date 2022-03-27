@@ -1,0 +1,20 @@
+@model IEnumerable<FriendViewModel>
+
+
+<div class='d-block m-auto'>
+    @foreach(var i in Model){
+    <div class="row border-1 border rounded-1 w-75 m-auto mb-1 p-1">
+        <div class="col-12 col-lg-4">
+            <img src="./template.jpg" class="img-fluid p-1 ">
+        </div>
+        <div class="col p-2">
+
+            <div class="p-2 m-1 px-3">
+                <div class="mb-2 p-2">
+                    @Html.ActionLink(i.Profile_Name,"Index",new { controller="Profile" , Id=i.Profile_Id },new { @class="text-decoration-none text-dark" })
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
