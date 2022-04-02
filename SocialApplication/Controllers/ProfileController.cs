@@ -26,11 +26,12 @@ namespace SocialApplication.Controllers
         public ActionResult Index(string id)
         {
             ProfileViewModel profile1 = null;
-            using (Context _context = new Context())
-            {
-                ProfileViewModel profile = null;
 
-                if (id != null)
+            ProfileViewModel profile = null;
+
+            if (id != null)
+            {
+                using (Context _context = new Context())
                 {
                     if (User.Identity.IsAuthenticated)
                     {
@@ -62,7 +63,7 @@ namespace SocialApplication.Controllers
                     }
                     profile = _context.profiles.Include("User").Where(p => p.Id.Equals(id)).Select(i => new ProfileViewModel
                     {
-                        Id=i.Id,
+                        Id = i.Id,
                         UserId = i.UserId,
                         DisplayName = i.DisplayName,
                         address = i.address,
@@ -77,24 +78,30 @@ namespace SocialApplication.Controllers
                     }
                     return View(profile);
                 }
+            }
+            using (Context _context = new Context())
+            {
                 string userid = User.Identity.GetUserId();
-                profile1 = _context.profiles.Where(p => p.User.Id.Equals(userid)).Include(p => p.User).Select(i => new ProfileViewModel
+                var profilearray = _context.profiles.ToList();
+                profile1 = _context.profiles.ToList().Select(i => new ProfileViewModel
                 {
-                    Id=i.Id,
+                    Id = i.Id,
                     DisplayName = i.DisplayName,
                     address = i.address,
                     Date_Of_Birth = i.Date_Of_Birth,
-                    Email = i.User.Email,
-                    PhoneNumber = i.User.PhoneNumber,
-                    Image = i.Image
+                    //Email = i.User.Email,
+                    //PhoneNumber = i.User.PhoneNumber,
+                    Image = i.Image,
+                    UserId = i.UserId
 
-                }).FirstOrDefault();
+                }).SingleOrDefault(p => p.UserId == userid);
                 if (profile1 == null)
                 {
                     return RedirectToAction("Create", "Profile");
                 }
+
+                return View(profile1);
             }
-            return View(profile1);
         }
         [HttpGet]
         [Authorize]
@@ -148,11 +155,11 @@ namespace SocialApplication.Controllers
             {
                 profile = _context.profiles.Where(p => p.UserId.Equals(Id)).Select(i => new ProfileCreateViewModel
                 {
-                    Id=i.Id,
+                    Id = i.Id,
                     Date_Of_Birth = i.Date_Of_Birth,
                     DisplayName = i.DisplayName,
                     address = i.address,
-                    ImageName=i.Image
+                    ImageName = i.Image
                 }).FirstOrDefault();
                 if (profile == null)
                 {

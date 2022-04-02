@@ -19,7 +19,7 @@ namespace SocialApplication.Models.ViewModels
         public string GetUrl()
         {
             if (Image == "default.jpg")
-                return $"uploads/profile/{Image}";
+                return $"/uploads/profile/{Image}";
             return $"/uploads/profile/{this.Id}/{Image}";
         }
     }
