@@ -37,4 +37,16 @@ namespace SocialApplication.Models.ViewModels
         }
 
     }
+    public class  ResetViewModel{
+        [Display(Name="Old Password")]
+        [DataType(DataType.Password)]
+        public string OldPassword{set;get;}
+        [Display(Name="New Password")]
+        [DataType(DataType.Password)]
+        public string NewPassword{set;get;}
+        [DataType(DataType.Password)]
+        [Display(Name="New Confirm Password")]
+        [Compare("NewPassword")]
+        public string NewConfirmPassword{set;get;}
+    }
 }

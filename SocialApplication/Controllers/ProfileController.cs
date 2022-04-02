@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using SocialApplication.Services;
 
 namespace SocialApplication.Controllers
@@ -202,7 +203,20 @@ namespace SocialApplication.Controllers
             return View(model);
 
         }
-
+        [HttpGet]
+        public ActionResult ResetPassword(){
+            return View();
+        }
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryKey]
+        public async Task<ActionResult> ResetPassword([Bind(Include="OldPassword,NewPassword,NewConfirmPassword")] ResetViewModel model){
+            if(ModelState.IsValid){
+                //check password is correct
+                
+            }
+            return View(model);
+        }
     }
 }
 
