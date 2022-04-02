@@ -2,7 +2,8 @@
 
 <div class='m-1 p-3 m-auto d-block'>
 
-    <form class="m-2 p-2" method="post" asp-action="Update" asp-controller="Profile" enctype="multipart/form-data">
+    @using (Html.BeginForm("Update", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", @class = "m-2" }))
+    {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary()
         <div class="lh-lg">
@@ -17,15 +18,23 @@
             @Html.LabelFor(p => p.Date_Of_Birth, new { htmlAttributes = new { @class = "form-label" } })
             @Html.EditorFor(p => p.Date_Of_Birth, new { htmlAttributes = new { @class = "form-control", placeholder = "Date Of Birth" } })
         </div>
+        if (Model.GetUrl() != null)
+        {
+            <img src=@Url.Content(Model.GetUrl()) class="img-fluid rounded-3 py-1" />
+        }
+        else
+        {
+            <p> This is default Image nothing here...</p>
+        }
         <div class="lh-lg">
             @Html.LabelFor(p => p.Image, new { htmlAttributes = new { @class = "form-label" } })
-            @Html.EditorFor(p => p.Image, new { htmlAttributes = new { @class = "form-control"} })
+            @Html.TextBoxFor(p => p.Image, new { @class = "form-control", @type = "file" })
         </div>
         <div class="mt-2">
             <input type='submit' class='d-block btn btn-primary w-100 rounded m-auto' value="Update Profile" />
         </div>
-    </form>
 
+    }
 </div>
 
 @section Scripts{

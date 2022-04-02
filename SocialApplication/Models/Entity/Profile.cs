@@ -5,7 +5,7 @@ namespace SocialApplication.Models.Entity
 {
     public class Profile : Base
     {
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime Date_Of_Birth { set; get; }
         public string DisplayName { set; get; }
         public ApplicationUser User { set; get; }
@@ -16,7 +16,7 @@ namespace SocialApplication.Models.Entity
 
         public Profile() : base()
         {
-            Image = "default.png";
+            Image = "default.jpg";
         }
     }
 }

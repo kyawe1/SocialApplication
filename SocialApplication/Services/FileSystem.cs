@@ -14,14 +14,13 @@ namespace SocialApplication.Services
             var ok = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory);
             if (!Directory.Exists(Path.Combine(ok, "uploads/" + path)))
             {
-                
                 Directory.CreateDirectory(Path.Combine(ok, "uploads/" + path));
             }
-            using (FileStream fileStream = File.Open(Path.Combine(ok, "uploads/" + path) + "/" + name+"."+extension, FileMode.Create))
+            using (FileStream fileStream = File.Open(Path.Combine(ok, "uploads/" + path) + "/" + name+""+extension, FileMode.Create))
             {
                 file.InputStream.CopyTo(fileStream);
             }
-                return $"{name}.{extension}";
+                return $"{name}{extension}";
         }
         public static FileStream GetBlogPicture(string filename)
         {

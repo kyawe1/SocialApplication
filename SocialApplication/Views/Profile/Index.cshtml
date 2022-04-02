@@ -12,22 +12,18 @@
         <div class="col">
             <div class="shadow-sm rounded-bottom position-sticky top-0">
                 <div class="p-3 m-1 d-block">
-                    <a asp-action="Update" asp-controller="Profile" class='text-decoration-none text-dark'><span>Edit Your
-                            Profile</span></a>
-
+                    @Html.ActionLink("Edit Your Profile", "Update", new { controller= "Profile" }, new { @class = "text-decoration-none text-dark" })
                 </div>
                 <div class="p-3 m-1 d-block">
-                    <a asp-action="Index" asp-controller="Friend" class='text-decoration-none text-dark'><span>
-                            Friend Requests</span></a>
+                    @Html.ActionLink("Friend Requests", "Index", new { controller="Friend" }, new { @class = "text-decoration-none text-dark" })
                 </div>
                 <div class="p-3 m-1 d-block">
-                    <a asp-action="ShowFriends" asp-controller="Friend" class='text-decoration-none text-dark'><span>
-                           Show Friends</span></a>
+                    @Html.ActionLink("Show Friends", "ShowFriends", new { controller="Friend" }, new { @class = "text-decoration-none text-dark" })
                 </div>
                 <div class="p-3 m-1 d-block">
                     <a href="#" class='text-decoration-none text-dark'><span>Reset Your Password</span></a>
                 </div>
-                
+
             </div>
         </div>
     }
@@ -35,11 +31,14 @@
 
     <div class="col-md-9 col-12 shadow-sm overflow-auto d-block m-auto">
         <div class="col-md-9 col-12 m-auto mb-1">
-            @if(Model.Image==null || String.IsNullOrEmpty(Model.Image)){
+            @if (Model.Image == null || String.IsNullOrEmpty(Model.Image))
+            {
                 <img src="/upload/profile/default.jpg" class="img-fluid rounded-3 py-1" />
-            }else{
+            }
+            else
+            {
 
-            <img src=@Model.GetUrl() class="img-fluid rounded-3 py-1" />
+                <img src=@Url.Content(Model.GetUrl()) class="img-fluid rounded-3 py-1" />
             }
         </div>
 
@@ -50,10 +49,11 @@
                 {
                     case 0:
                         <div>
-                            <form asp-action="Make" asp-controller="Friend" asp-route-id=@Model.UserId method="Post"> 
+                            @using (Html.BeginForm("Make", "Friend", new { id = Model.UserId }, FormMethod.Post))
+                            {
                                 @Html.AntiForgeryToken()
                                 <input type="submit" class="btn btn-light text-decoration-none" role="button" value="Add Friend">
-                            </form>
+                            }
                         </div>
                         break;
                     case 1:
@@ -72,14 +72,9 @@
                         break;
                     case 3:
                         <div>
-                            <a class="btn btn-primary text-decoration-none" role="button" asp-action="Confirm"
-                    asp-controller="Friend" asp-route-id=@Model.UserId>
-                                Accept
-                            </a>
-                            <a class="btn btn-Light text-decoration-none" role="button" asp-action="Make" asp-controller="Friend"
-                    asp-route-id=@Model.UserId>
-                                Cencel
-                            </a>
+                            @Html.ActionLink("Accept", "Confirm", "Friend", new { @class = "btn btn-primary text-decortaion-none", role = "button" })
+                            @Html.ActionLink("Cencel", "Cencel", "Friend", new { @class = "btn btn-danger text-decortaion-none", role = "button" })
+
                         </div>
                         break;
                 }

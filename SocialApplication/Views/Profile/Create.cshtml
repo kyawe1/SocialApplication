@@ -1,8 +1,9 @@
 @model ProfileCreateViewModel
 
 <div class='m-1 p-3 m-auto d-block'>
+    @using (Html.BeginForm("Create", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", @class = "m-2" }))
+    {
 
-    <form class="m-2 p-2" method="post" asp-action="Create" asp-controller="Profile" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
         @Html.ValidationSummary()
         <div class="lh-lg">
@@ -19,13 +20,13 @@
         </div>
         <div class="lh-lg">
             @Html.LabelFor(p => p.Image, new { htmlAttributes = new { @class = "form-label" } })
-            @Html.EditorFor(p => p.Image, new { htmlAttributes = new { @class = "form-control", placeholder = "Image" } })
+            @Html.TextBoxFor(p => p.Image, new {  @class = "form-control",@type="file"  })
         </div>
         <div class="mt-2">
             <input type='submit' class='d-block btn btn-primary w-100 rounded m-auto' value="Create Profile" />
         </div>
-    </form>
 
+    }
 </div>
 
 @section Scripts{

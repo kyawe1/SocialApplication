@@ -2,10 +2,12 @@ using SocialApplication.Models;
 using SocialApplication.Models.Entity;
 using SocialApplication.Models.ViewModels;
 using System.Web;
+using System;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using System.Data.Entity;
 using System.Linq;
+using SocialApplication.Services;
 
 namespace SocialApplication.Controllers
 {
@@ -60,6 +62,7 @@ namespace SocialApplication.Controllers
                     }
                     profile = _context.profiles.Include("User").Where(p => p.Id.Equals(id)).Select(i => new ProfileViewModel
                     {
+                        Id=i.Id,
                         UserId = i.UserId,
                         DisplayName = i.DisplayName,
                         address = i.address,
@@ -72,12 +75,12 @@ namespace SocialApplication.Controllers
                     {
                         return RedirectToAction("Index", "Blog", new { id = id });
                     }
+                    return View(profile);
                 }
-                return View(profile);
-
-                profile1 = _context.profiles.Where(p => p.User.Id.Equals(User.Identity.GetUserId())).Include(p => p.User).Select(i => new ProfileViewModel
+                string userid = User.Identity.GetUserId();
+                profile1 = _context.profiles.Where(p => p.User.Id.Equals(userid)).Include(p => p.User).Select(i => new ProfileViewModel
                 {
-
+                    Id=i.Id,
                     DisplayName = i.DisplayName,
                     address = i.address,
                     Date_Of_Birth = i.Date_Of_Birth,
@@ -145,9 +148,11 @@ namespace SocialApplication.Controllers
             {
                 profile = _context.profiles.Where(p => p.UserId.Equals(Id)).Select(i => new ProfileCreateViewModel
                 {
+                    Id=i.Id,
                     Date_Of_Birth = i.Date_Of_Birth,
                     DisplayName = i.DisplayName,
-                    address = i.address
+                    address = i.address,
+                    ImageName=i.Image
                 }).FirstOrDefault();
                 if (profile == null)
                 {
@@ -159,31 +164,38 @@ namespace SocialApplication.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Update([Bind(Include = "Date_Of_Birth, DisplayName, address, Image" )] ProfileCreateViewModel model)
+        public ActionResult Update([Bind(Include = "Date_Of_Birth, DisplayName, address, Image")] ProfileCreateViewModel model)
         {
+            if (model.Image == null)
+            {
+                model.Image = null;
+            }
             if (ModelState.IsValid)
             {
                 string Id = User.Identity.GetUserId();
-                Profile profile=null;
+                Profile profile = null;
                 using (Context _context = new Context())
                 {
                     profile = _context.profiles.Where(p => p.UserId.Equals(Id)).First();
-                    if (profile.Image != model.Image.FileName)
+                    if (model.Image != null)
                     {
-                        //profile.Image = _imageService.SaveImage(model.Image, $"Upload/profilepics/{Id}/", $"{Guid.NewGuid().ToString()}{Path.GetExtension(model.Image.FileName)}");
+                        if (profile.Image != model.Image.FileName)
+                        {
+                            profile.Image = FileSystem.Savefile(model.Image, $"profile/{profile.Id}", $"{Guid.NewGuid().ToString()}", FileSystem.GetExtension(model.Image.FileName));
+                        }
+                        profile.DisplayName = model.DisplayName;
+                        profile.Date_Of_Birth = model.Date_Of_Birth;
+                        profile.address = model.address;
+                        _context.Entry(profile).State = EntityState.Modified;
+                        _context.SaveChanges();
                     }
-                    profile.DisplayName = model.DisplayName;
-                    profile.Date_Of_Birth = model.Date_Of_Birth;
-                    profile.address = model.address;
-                    _context.Entry(profile).State = EntityState.Modified;
-                    _context.SaveChanges();
+                    return RedirectToAction("Index", "Profile", new { id = profile.Id });
                 }
-                return RedirectToAction("Index", "Profile", new { id = profile.Id });
             }
             return View(model);
+
         }
 
     }
-
 }
 

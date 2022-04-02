@@ -183,10 +183,14 @@ namespace SocialApplication.Controllers
                 using (Context context = new Context())
                 {
                     var blog = context.blogs.Single(p => p.Id == id);
-                    if(blog!= null || blog.UserId == UserId)
+                    if(blog!= null && blog.UserId == UserId)
                     {
                         context.Entry(blog).State = System.Data.Entity.EntityState.Deleted;
                         context.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new Exception();
                     } 
                 }
             }

@@ -12,7 +12,7 @@
     <header class="p-1">
         <nav class="p-1 navbar navbar-light navbar-expand-lg bg-light">
             <div class="navbar-brand fs-4 mb-1">
-                Truth Media
+                Communicator
             </div>
             <button type="button" class="navbar-toggler" data-bs-target="#navrealpart" data-bs-toggle="collapse" aria-controls="navrealpart" aria-expanded="false" aria-labelledby="navrealpart">
                 <span class="navbar-toggler-icon"></span>
@@ -21,7 +21,7 @@
                 <ul class="navbar-nav ms-auto ">
                     <li class="navbar-item mx-1 p-1">@Html.ActionLink("Home", "Index", new { controller= "Home" }, new { @class = "nav-link text-decoration-none" })</li>
                     <li class="navbar-item mx-1 p-1">@Html.ActionLink("Blog", "Index", new { controller = "Blog" }, new { @class = "nav-link text-decoration-none" })</li>
-                    <li class="navbar-item mx-1 p-1">@Html.ActionLink("Privacy", "Privacy", new { controller = "Home" }, new { @class = "nav-link text-decoration-none" })</li>
+                    <li class="navbar-item mx-1 p-1">@Html.ActionLink("Home", "About", new { controller = "Home" }, new { @class = "nav-link text-decoration-none" })</li>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class='nav-item'>
