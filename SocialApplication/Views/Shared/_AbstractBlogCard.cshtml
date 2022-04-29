@@ -35,7 +35,7 @@
 
                 <a href='@Url.Action("Detail","Blog",new { id=Model.Id })' class="text-decoration-none text-dark">
                     <div class="px-3 py-1">
-                        @if (Model.ImageUrl != null)
+                        @if (Model.GetUrl() != null)
                         {
                             <img src="@Url.Content(Model.GetUrl())" width="700" class="img-fluid m-auto d-block mb-2">
                         }

@@ -5,15 +5,18 @@ using System.Web;
 using System;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+
 using SocialApplication.Services;
 
 namespace SocialApplication.Controllers
 {
     public class ProfileController : Controller
     {
+        private ApplicationUserManager _userManager { get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); } }
 
         /// <summary>
         ///     0 is not friend
@@ -84,14 +87,14 @@ namespace SocialApplication.Controllers
             {
                 string userid = User.Identity.GetUserId();
                 var profilearray = _context.profiles.ToList();
-                profile1 = _context.profiles.ToList().Select(i => new ProfileViewModel
+                profile1 = _context.profiles.Include(p=> p.User).Select(i => new ProfileViewModel
                 {
                     Id = i.Id,
                     DisplayName = i.DisplayName,
                     address = i.address,
                     Date_Of_Birth = i.Date_Of_Birth,
-                    //Email = i.User.Email,
-                    //PhoneNumber = i.User.PhoneNumber,
+                    Email = i.User.Email,
+                    PhoneNumber = i.User.PhoneNumber,
                     Image = i.Image,
                     UserId = i.UserId
 
@@ -209,12 +212,25 @@ namespace SocialApplication.Controllers
         }
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryKey]
-        public async Task<ActionResult> ResetPassword([Bind(Include="OldPassword,NewPassword,NewConfirmPassword")] ResetViewModel model){
-            if(ModelState.IsValid){
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword([Bind(Include = "OldPassword,NewPassword,NewConfirmPassword")] ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
                 //check password is correct
-                
+                var user = User.Identity.GetUserId();
+                ApplicationUser user_obj = _userManager.FindById(user);
+                var b = _userManager.CheckPassword(user_obj, model.OldPassword);
+                if (b)
+                {
+                    IdentityResult i = _userManager.ChangePassword(user_obj.Id, model.OldPassword, model.NewPassword);
+                    if (i.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
             }
+            ModelState.AddModelError("error", "something worng");
             return View(model);
         }
     }

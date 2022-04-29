@@ -44,5 +44,18 @@ namespace SocialApplication.Models.ViewModels
             return $"/uploads/profile/{this.Id}/{ImageName}";
         }
     }
+
+    public class ResetPasswordViewModel
+    {
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        public string NewPassword { set; get; }
+        [DataType(DataType.Password)]
+        [Display(Name = "Old Password")]
+        public string OldPassword { set; get; }
+        [DataType(DataType.Password)]
+        [Display(Name = "New Confirm Password")]
+        public string NewConfirmPassword { set; get; }
+    }
 }
 

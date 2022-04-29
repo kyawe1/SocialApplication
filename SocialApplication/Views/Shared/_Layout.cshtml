@@ -21,7 +21,7 @@
                 <ul class="navbar-nav ms-auto ">
                     <li class="navbar-item mx-1 p-1">@Html.ActionLink("Home", "Index", new { controller= "Home" }, new { @class = "nav-link text-decoration-none" })</li>
                     <li class="navbar-item mx-1 p-1">@Html.ActionLink("Blog", "Index", new { controller = "Blog" }, new { @class = "nav-link text-decoration-none" })</li>
-                    <li class="navbar-item mx-1 p-1">@Html.ActionLink("Home", "About", new { controller = "Home" }, new { @class = "nav-link text-decoration-none" })</li>
+                    <li class="navbar-item mx-1 p-1">@Html.ActionLink("About", "About", new { controller = "Home" }, new { @class = "nav-link text-decoration-none" })</li>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class='nav-item'>

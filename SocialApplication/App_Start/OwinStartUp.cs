@@ -27,8 +27,8 @@ namespace SocialApplication
                 CookieSecure = CookieSecureOption.SameAsRequest,
                 LoginPath = new PathString("/identity/login"),
                 LogoutPath = new PathString("/identity/logout")
-            }); 
-            
+                
+            });             
         }
     }
 }

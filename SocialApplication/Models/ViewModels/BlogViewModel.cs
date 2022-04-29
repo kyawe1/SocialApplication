@@ -11,7 +11,7 @@ namespace SocialApplication.Models.ViewModels
         public string Content { set; get; }
         [DataType(DataType.Upload)]
         public HttpPostedFileBase Image { set; get; }
-        public string oldimgurl { set; get; }
+        public  string oldimgurl { set; get; }
     }
     public class BlogViewModel
     {
@@ -29,6 +29,10 @@ namespace SocialApplication.Models.ViewModels
 
         public string GetUrl()
         {
+            if (String.IsNullOrEmpty( ImageUrl.Trim()) )
+            {
+                return null;
+            }
             return $"~/uploads/blogs/{ ImageUrl }";
         }
 

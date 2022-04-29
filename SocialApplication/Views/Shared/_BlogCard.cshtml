@@ -17,7 +17,7 @@
 
 
     </div>
-    @if (Model.ImageUrl != null)
+    @if (Model.GetUrl() != null)
     {
         <img src="@Url.Content(Model.GetUrl())" width="700" class="img-fluid m-auto d-block mb-2">
     }

@@ -96,7 +96,12 @@ namespace SocialApplication.Controllers
             {
                 try
                 {
-                    string filename=FileSystem.Savefile(model.Image, "blogs",$"{model.Title}{Guid.NewGuid().ToString()}",Path.GetExtension(model.Image.FileName));
+                    string filename="";
+                    if (model.Image != null)
+                    {
+                         filename = FileSystem.Savefile(model.Image, "blogs", $"{model.Title}{Guid.NewGuid().ToString()}", Path.GetExtension(model.Image.FileName));
+                    }
+                    
                     string UserId=User.Identity.GetUserId();
                     Blog blog = new Blog()
                     {
